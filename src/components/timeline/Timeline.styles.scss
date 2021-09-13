@@ -1,34 +1,42 @@
 .timeline {
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .timeline-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        form input {
-            margin: 10px;
-        }
+    form input {
+      margin: 10px;
     }
+  }
 
-    .timeline-body {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+  .timeline-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-        .timeline-item {
-            flex-basis: 29%;
-            margin: 10px;
-            border: 1px solid black;
-            padding: 10px;
-            
-            h2 {
-                font-size: 1em;
-            }
+    .timeline-item {
+      flex-basis: 29%;
+      margin: 10px;
+      border: 1px solid black;
+      padding: 10px;
 
-            p {
-                font-size: 0.8em;
-                max-height: 30px;
-            }
-        }
+      .data-title {
+        font-size: 1em;
+        overflow: hidden;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+
+      .data-description {
+        font-size: 0.8em;
+        overflow: hidden;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
     }
+  }
 }
