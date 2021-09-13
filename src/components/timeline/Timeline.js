@@ -46,13 +46,23 @@ function Timeline(props) {
             })}
           </div>
         )}
-        {count > 9 ? (
-          <div>
+        {count > 9 && count < data.length ? (
+          <div className="pagination">
             <button onClick={prevPage}>Prev</button>
-            <button onClick={nextPage}>Next</button>
+            <button className="next-button" onClick={nextPage}>
+              Next
+            </button>
+          </div>
+        ) : count < 10 && count < data.length ? (
+          <div className="pagination">
+            <button className="next-button" onClick={nextPage}>
+              Next
+            </button>
           </div>
         ) : (
-          <button onClick={nextPage}>Next</button>
+          <div>
+            <button onClick={prevPage}>Prev</button>
+          </div>
         )}
       </div>
     );
