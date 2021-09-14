@@ -7,6 +7,15 @@
     .search-bars {
       input {
         margin: 10px;
+        position: relative;
+      }
+      button {
+        margin-left: -62px;
+        margin-top: 12px;
+        border: none;
+        position: absolute;
+        background: white;
+        color: rgb(102, 102, 102)
       }
     }
   }

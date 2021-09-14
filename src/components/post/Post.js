@@ -8,6 +8,7 @@ function Post(props) {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [searchId, setSearchId] = useState("");
+  const [orderedList, setOrderedList] = useState("asc");
 
   const data = props.data;
   const loading = props.loading;
@@ -22,6 +23,14 @@ function Post(props) {
     setFirstElement(firstElement - 9);
   };
 
+  const sort = () => {
+    if (orderedList === "asc") {
+      setOrderedList("desc");
+    } else {
+      setOrderedList("asc");
+    }
+  };
+
   useEffect(() => {
     if (search === "") {
       setFilteredPosts(data);
@@ -33,20 +42,24 @@ function Post(props) {
     }
   }, [data, search]);
 
-    useEffect(() => {
-      if (searchId === "") {
-        setFilteredPosts(data);
+  useEffect(() => {
+    if (searchId === "") {
+      setFilteredPosts(data);
+    } else {
+      let visiblePosts = [...data].filter((post) => {
+        let id = post.id.toString();
+        console.log(searchId);
+        return id.includes(searchId);
+      });
+      if (orderedList === "desc") {
+        visiblePosts.reverse();
+        setFilteredPosts(visiblePosts);
       } else {
-        let visiblePosts = [...data].filter((post) => {
-          let id = post.id.toString();
-          console.log(searchId);
-          return id.includes(searchId);
-          
-        });
         setFilteredPosts(visiblePosts);
       }
-    }, [data, searchId]);
-  
+      
+    }
+  }, [data, searchId, orderedList]);
 
   return (
     <div className="post">
@@ -62,9 +75,14 @@ function Post(props) {
           <input
             type="text"
             name="searchId"
-            placeholder="Search by id (asc)"
+            placeholder="Search by id"
             onChange={(event) => setSearchId(event.target.value)}
           />
+          {orderedList === "asc" ? (
+            <button onClick={sort}>Desc↓</button>
+          ) : (
+            <button onClick={sort}>Asc↑</button>
+          )}
         </div>
       </div>
 
