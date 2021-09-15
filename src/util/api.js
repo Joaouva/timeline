@@ -26,12 +26,24 @@ const ApiService = () => {
             });
     }
 
+    const updateData = (title, body) => {
+      axios
+        .put("https://jsonplaceholder.typicode.com/posts", { title, body })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (response) {
+          console.log(response);
+          setError(response.message);
+        });
+    };
+
  
     useEffect(() => {
         getData();
     }, []);
 
-    return { response, error, loading };
+    return { response, error, loading, updateData, setError };
 };
 
 export default ApiService;

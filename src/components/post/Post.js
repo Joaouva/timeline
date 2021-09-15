@@ -3,12 +3,11 @@ import React from "react";
 
 function Post(props) {
 
-  const index = props.index;
-  const post = props.post;
+  const {index, post, openModal} = props;
     
 
     return (
-      <div className="post-item" key={index}>
+      <div className="post-item" key={index} onClick={openModal}>
         <h2 className="data-title">{post.title}</h2>
         <h3> id: {post.id}</h3>
         <p className="data-description">{post.body}</p>
