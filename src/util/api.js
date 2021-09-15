@@ -28,7 +28,7 @@ const ApiService = () => {
 
     const updateData = (title, body) => {
       axios
-        .put("https://jsonplaceholder.typicode.com/posts", { title, body })
+        .post("https://jsonplaceholder.typicode.com/posts", { title, body })
         .then(function (response) {
           console.log(response);
         })
