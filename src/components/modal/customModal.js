@@ -1,45 +1,52 @@
 import React, { useState } from "react";
-
+import ApiService from "../../util/api";
 
 function CustomModal(props) {
-  const { showMessage, setShowMessage } = useState(false);
-  const {
-    post,
-    body,
-    setBody,
-    title,
-    setTitle,
-    updateItem,
-    closeModal,
-    error,
-    setIsOpen,
-  } = props;
-  
+  const { updateData, error } = ApiService();
+  const [body, setBody] = useState("");
+  const [title, setTitle] = useState("");
+  const [id, setId] = useState("");
+  const [success, setSuccess] = useState("");
+  const { modalData, setIsOpen } = props;
 
-  function handleSubmit(e) {
+  const updateItem = (e) => {
     e.preventDefault();
-    console.log("submit");
-  }
-
+    setId(modalData.id);
+    updateData(id,title, body);
+    if (!error) {
+      setSuccess("Successfully updated item");
+    }
+    setTimeout(() => {
+      console.log(error, 'errorrrrrrr')
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("no error");
+        setIsOpen(false);
+      }
+    }, 2000);
+  };
 
   return (
     <div>
-      <form onSubmit={updateItem}>
-        <input placeholder={post.id} />
+      <form>
+        <input placeholder={modalData.id} />
         <input
           type="text"
           name="title"
+          placeholder={modalData.title}
           onChange={(event) => setTitle(event.target.value)}
         />
         <input
           type="text"
           name="body"
+          placeholder={modalData.body}
           onChange={(event) => setBody(event.target.value)}
         />
-        <button type="submit" disabled={!title + !body}>
+        <button disabled={!title + !body} onClick={updateItem}>
           Submit
         </button>
-        {error ? <div>{error}</div> : null}
+        {error ? <div>{error}</div> : <div>{success}</div>}
       </form>
     </div>
   );

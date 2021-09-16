@@ -20,7 +20,7 @@ const customStyles = {
 };
 
 function Timeline() {
-  const { response, loading, error, updateData } = ApiService();
+  const { response, loading } = ApiService();
   const [data, setData] = useState([]);
   const [count, setCount] = useState(9);
   const [firstElement, setFirstElement] = useState(0);
@@ -29,9 +29,8 @@ function Timeline() {
   const [searchId, setSearchId] = useState("");
   const [orderedList, setOrderedList] = useState("asc");
   const [dateOrder, setDateOrder] = useState("asc");
+  const [modalData, setModalData] = React.useState({});
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [body, setBody] = useState("");
-  const [title, setTitle] = useState("");
 
   useEffect(() => {
     if (response !== null) {
@@ -39,17 +38,6 @@ function Timeline() {
     }
   }, [response, data]);
 
-  const updateItem = (e) => {
-    e.preventDefault();
-    updateData(title, body);
-    console.log(`modal is open? ${modalIsOpen}`);
-    if (!error) {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-      console.log (error);
-    }
-  };
 
   const nextPage = () => {
     setCount(count + 9);
@@ -131,11 +119,14 @@ function Timeline() {
     }
   }, [data, searchId, orderedList]);
 
-  function openModal() {
+
+  const openModal = (postData) => {
+    setModalData(postData);
+    console.log(postData);
     setIsOpen(true);
   }
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
   }
 
@@ -175,28 +166,14 @@ function Timeline() {
         <div className="post-container">
           {filteredPosts.slice(firstElement, count).map((item, index) => {
             return (
-              <div className="post-body" key={index}>
-                <Post post={item} openModal={openModal} />
-                <Modal
-                  isOpen={modalIsOpen}
-                  contentLabel="Minimal Modal Example"
-                  style={customStyles}
-                  ariaHideApp={false}
-                  onRequestClose={closeModal}
-                >
-                  <CustomModal
-                    post={item}
-                    key={index}
-                    setBody={setBody}
-                    setTitle={setTitle}
-                    updateItem={updateItem}
-                    closeModal={closeModal}
-                    title={title}
-                    body={body}
-                    error={error}
-                    setIsOpen={setIsOpen}
-                  />
-                </Modal>
+              <div
+                className="post-body"
+                key={index}
+                onClick={() => {
+                  openModal(item);
+                }}
+              >
+                <Post post={item} />
               </div>
             );
           })}
@@ -220,6 +197,20 @@ function Timeline() {
           <button onClick={prevPage}>Prev</button>
         </div>
       )}
+      <Modal
+        isOpen={modalIsOpen}
+        contentLabel="Minimal Modal Example"
+        style={customStyles}
+        ariaHideApp={false}
+        shouldCloseOnEsc={true}
+        onRequestClose={closeModal}
+      >
+        <CustomModal
+          modalIsOpen={modalIsOpen}
+          setIsOpen={setIsOpen}
+          modalData={modalData}
+        />
+      </Modal>
     </div>
   );
 }
