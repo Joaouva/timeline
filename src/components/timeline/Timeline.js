@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Post from "../post/Post";
-import ApiService from "../../util/api";
 import "./Timeline.styles.scss";
 import CustomModal from "../modal/customModal";
 import Modal from "react-modal";
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../util/actions/fetchData";
+import { connect } from "react-redux";
 
 const customStyles = {
   overlay: {
@@ -20,8 +22,6 @@ const customStyles = {
 };
 
 function Timeline() {
-  const { response, loading } = ApiService();
-  const [data, setData] = useState([]);
   const [count, setCount] = useState(9);
   const [firstElement, setFirstElement] = useState(0);
   const [filteredPosts, setFilteredPosts] = useState([]);
@@ -31,12 +31,16 @@ function Timeline() {
   const [dateOrder, setDateOrder] = useState("asc");
   const [modalData, setModalData] = React.useState({});
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
+  
+  
+  const data = useSelector((state) => state.apiReducer.data);
+  const loading = useSelector((state) => state.apiReducer.loading);
+  const dispatch = useDispatch();
+  
+  
   useEffect(() => {
-    if (response !== null) {
-      setData(response);
-    }
-  }, [response, data]);
+    dispatch(getData());
+  }, [dispatch]);
 
 
   const nextPage = () => {
@@ -215,4 +219,7 @@ function Timeline() {
   );
 }
 
-export default Timeline;
+
+const mapStateToProps = (state) => ({ data: state.data });
+
+export default connect(mapStateToProps, { getData })(Timeline);

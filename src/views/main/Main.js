@@ -7,27 +7,27 @@ import MyCompany from "../../components/about/mycompany/MyCompany";
 import MyProfile from "../../components/about/myprofile/MyProfile";
 import Login from "../../components/login/login";
 import Contacts from "../../components/contacts/contacts";
+import { useSelector } from "react-redux";
 
 
 import "./Main.styles.scss";
 
 
-
 function Main() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  const isLoggedIn = useSelector((state) => state.loggedReducer.isLoggedIn);
+  console.log(isLoggedIn);
 
   return (
     <div className="container">
       {isLoggedIn ? (
         <div>
-          <Header setIsLoggedIn={setIsLoggedIn} />
+          <Header />
           <Switch>
             <Route exact path="/" component={Timeline} />
             <Route exact path="/about" component={About} />
             <Route exact path="/about/mycompany" component={MyCompany} />
             <Route exact path="/about/myprofile" component={MyProfile} />
-            <Route exact path="/contacts" component={Contacts} />
+            <Route exact path="/contacts" component={Contacts}/>
           </Switch>
         </div>
       ) : (
@@ -39,7 +39,7 @@ function Main() {
               if (isLoggedIn) {
                 return <Redirect to="/" />;
               } else {
-                return <Login setIsLoggedIn={setIsLoggedIn} />;
+                return <Login/>;
               }
             }}
           />
@@ -50,7 +50,7 @@ function Main() {
               if (isLoggedIn) {
                 return <Redirect to="/about" />;
               } else {
-                return <Login setIsLoggedIn={setIsLoggedIn} />;
+                return <Login />;
               }
             }}
           />
@@ -61,7 +61,7 @@ function Main() {
               if (isLoggedIn) {
                 return <Redirect to="/about/mycompany" />;
               } else {
-                return <Login setIsLoggedIn={setIsLoggedIn} />;
+                return <Login />;
               }
             }}
           />
@@ -72,7 +72,7 @@ function Main() {
               if (isLoggedIn) {
                 return <Redirect to="/about/myprofile" />;
               } else {
-                return <Login setIsLoggedIn={setIsLoggedIn} />;
+                return <Login />;
               }
             }}
           />
@@ -83,7 +83,7 @@ function Main() {
               if (isLoggedIn) {
                 return <Redirect to="/contacts" />;
               } else {
-                return <Login setIsLoggedIn={setIsLoggedIn} />;
+                return <Login />;
               }
             }}
           />

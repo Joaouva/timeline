@@ -1,14 +1,16 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logIn } from "../../util/actions/index";
 
-function Login(props) {
-    const setIsLoggedIn = props.setIsLoggedIn;
-    
-    const loginUser = (e) => {
-        e.preventDefault();
-        setIsLoggedIn(true);
-        alert('hi')
-    }
+function Login() {
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
+  
 
+  const logInUser = (e) => {
+    e.preventDefault();
+    dispatch(logIn());
+  }
 
   return (
     <div className="login">
@@ -20,7 +22,14 @@ function Login(props) {
             className="login-input"
             placeholder="Password"
           />
-                  <button className="login-button" onClick={(e) => { loginUser(e) }} >Login</button>
+          <button
+            className="login-button"
+            onClick={(e) => {
+              logInUser(e);
+            }}
+          >
+            Login
+          </button>
         </form>
       </div>
     </div>

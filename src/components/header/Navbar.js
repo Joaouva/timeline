@@ -1,14 +1,16 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../../util/actions/index";
 
 import "./Navbar.styles.scss"
 
 function Navbar(props) {
+    const dispatch = useDispatch();
+   
 
-    const setIsLoggedIn = props.setIsLoggedIn;
-
-    const logOut = () => {
-        setIsLoggedIn(false);
+    const logOutUser = () => {
+        dispatch(logOut());
     }
     
     return (
@@ -27,7 +29,7 @@ function Navbar(props) {
             <NavLink to="/login">Login</NavLink>
           </li>
           <li>
-            <button onClick={logOut}>Log Out</button>
+            <button onClick={logOutUser}>Log Out</button>
           </li>
         </ul>
       </div>
